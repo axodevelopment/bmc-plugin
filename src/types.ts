@@ -26,6 +26,7 @@ export interface VirtualClusterList extends K8sResourceCommon {
 export interface Device {
     name: string;
     powerControls: PowerControl[];
+    networkInterfaces: NetworkInterface[];
 }
 
 export interface PowerControl {
@@ -55,3 +56,13 @@ type PowerLimit = {
     MaxConsumedWatts: number; // Modify according to actual fields
     MinConsumedWatts: number; // Modify according to actual fields
   };
+
+  export interface NetworkInterface {
+    port: number;
+    linkStatus: string;
+    linkSpeed: string;
+    protocol: string;
+    switchConnectionID: string;
+    switchPortConnectionID: string;
+    cpuAffinity: string;
+  }

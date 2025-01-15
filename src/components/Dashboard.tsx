@@ -13,7 +13,7 @@ import { Page, PageSection, Title, Flex, FlexItem, BackToTop,
 } from '@patternfly/react-core';
 import './example.css';
 import { useEffect, useState } from 'react';
-import { Device, PowerControl } from 'src/types';
+import { Device, PowerControl, NetworkInterface } from 'src/types';
 //import { Link } from 'react-router-dom';
 //PlusCircleIcon
 import { CubesIcon } from '@patternfly/react-icons';
@@ -29,6 +29,13 @@ export default function ExamplePage() {
   const version = 'Version: v0.0.1'
 
   useEffect(() => {
+
+    const createPseudoNetworkInterfaces = (): NetworkInterface[] => [
+      { port: 1, linkStatus: "Up", linkSpeed: "1000 Mbps", protocol: "NIC", switchConnectionID: "Not Available", switchPortConnectionID: "Not Available", cpuAffinity: "N/A" },
+      { port: 2, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A" },
+      { port: 3, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A" },
+      { port: 4, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A" },
+    ];
 
     const createPseudoDevice = (id: number): PowerControl => ({
       "@odata.context": `/redfish/v1/PowerControl/${id}`,
@@ -56,27 +63,12 @@ export default function ExamplePage() {
     const getBmcData = async () => {
       
       const devices: Device[] = [
-        { name: '', powerControls: [] },
-        { name: '', powerControls: [] },
-        { name: '', powerControls: [] },
-        { name: '', powerControls: [] },
-        { name: '', powerControls: [] },
+        { name: "Device - CJO", powerControls: [1, 2].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
+        { name: "Device - CNO", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
+        { name: "Device - GNN", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
+        { name: "Device - GW2", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
+        { name: "Device - OD2", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
       ];
-
-      devices[0].name = "Device - CJO";
-      devices[0].powerControls = [1, 2, 3].map(createPseudoDevice);
-
-      devices[1].name = "Device - CNO";
-      devices[1].powerControls = [1, 2].map(createPseudoDevice);
-
-      devices[2].name = "Device - GNN";
-      devices[2].powerControls = [1].map(createPseudoDevice);
-
-      devices[3].name = "Device - GW2";
-      devices[3].powerControls = [1, 2].map(createPseudoDevice);
-
-      devices[4].name = "Device - OD2";
-      devices[4].powerControls = [1, 2].map(createPseudoDevice);
 
       setDevices(devices);
 
@@ -116,7 +108,7 @@ export default function ExamplePage() {
                 No Devices Found
               </Title>
               <EmptyStateBody>
-                No devices available. Add devices to monitor their power usage and temperature.
+                No devices available. Add devices to monitor their power usage and networking details.
               </EmptyStateBody>
             </EmptyState>
           ) : (
@@ -134,11 +126,16 @@ export default function ExamplePage() {
                   <Title headingLevel="h2" size="lg">
                     {device.name}
                   </Title>
+  
+                  {/* Power Controls Section */}
+                  <Title headingLevel="h3" size="lg" style={{ marginTop: '20px' }}>
+                    Power Controls
+                  </Title>
                   <Flex>
                     {device.powerControls.map((control, controlIndex) => {
                       const powerUsagePercentage = (control.PowerConsumedWatts / control.PowerCapacityWatts) * 100;
-                      const isOverCapacity = powerUsagePercentage > 100; // Over capacity check
-                      const temperature = Math.random() * 30 + 60; // Mock temperature (60-90°F)
+                      const isOverCapacity = powerUsagePercentage > 100;
+                      const temperature = Math.random() * 30 + 60; // Mock temperature
                       const btusUsed = control.PowerConsumedWatts * 3.412; // BTU calculation
   
                       return (
@@ -158,7 +155,7 @@ export default function ExamplePage() {
                               backgroundColor: isOverCapacity ? '#ffe6e6' : '#e6ffe6',
                             }}
                           >
-                            <Title headingLevel="h3" size="md">
+                            <Title headingLevel="h4" size="md">
                               {control.Name}
                             </Title>
                             <p>
@@ -197,6 +194,37 @@ export default function ExamplePage() {
                       );
                     })}
                   </Flex>
+  
+                  {/* Networking Section */}
+                  <Title headingLevel="h3" size="lg" style={{ marginTop: '20px' }}>
+                    Networking
+                  </Title>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
+                    <thead>
+                      <tr>
+                        <th>Port</th>
+                        <th>Link Status</th>
+                        <th>Link Speed</th>
+                        <th>Protocol</th>
+                        <th>Switch Connection ID</th>
+                        <th>Switch Port Connection ID</th>
+                        <th>CPU Affinity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {device.networkInterfaces.map((nic, nicIndex) => (
+                        <tr key={nicIndex} style={{ borderBottom: '1px solid #ccc' }}>
+                          <td>{nic.port}</td>
+                          <td>{nic.linkStatus}</td>
+                          <td>{nic.linkSpeed}</td>
+                          <td>{nic.protocol}</td>
+                          <td>{nic.switchConnectionID}</td>
+                          <td>{nic.switchPortConnectionID}</td>
+                          <td>{nic.cpuAffinity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               ))}
             </div>
@@ -206,5 +234,6 @@ export default function ExamplePage() {
       </Page>
     </>
   );
+  
   
 }
