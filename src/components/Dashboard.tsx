@@ -35,7 +35,7 @@ export default function ExamplePage() {
       "@odata.type": `#Power.v1_0_0.PowerControl`,
       "@odata.id": `/redfish/v1/PowerControl/${id}`,
     
-      Name: `PseudoDevice${id}`,
+      Name: `pd${id}`,
       MemberId: `Device${id}`,
       PowerAllocatedWatts: Math.random() * 100,
       PowerAvailableWatts: Math.random() * 100,
@@ -109,7 +109,7 @@ export default function ExamplePage() {
           </Flex>
         </PageSection>
         <PageSection variant="light">
-          {devices.length == 0 ? (
+          {devices.length === 0 ? (
             <EmptyState>
               <EmptyStateIcon icon={CubesIcon} />
               <Title headingLevel="h4" size="lg">
@@ -122,25 +122,40 @@ export default function ExamplePage() {
           ) : (
             <div>
               {devices.map((device, deviceIndex) => (
-                <div key={deviceIndex} style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
+                <div
+                  key={deviceIndex}
+                  style={{
+                    marginBottom: '20px',
+                    border: '1px solid #ccc',
+                    padding: '20px',
+                    borderRadius: '8px',
+                  }}
+                >
                   <Title headingLevel="h2" size="lg">
                     {device.name}
                   </Title>
                   <Flex>
                     {device.powerControls.map((control, controlIndex) => {
                       const powerUsagePercentage = (control.PowerConsumedWatts / control.PowerCapacityWatts) * 100;
-                      const isCritical = powerUsagePercentage > 80; // Example threshold for critical power usage
+                      const isOverCapacity = powerUsagePercentage > 100; // Over capacity check
                       const temperature = Math.random() * 30 + 60; // Mock temperature (60-90°F)
                       const btusUsed = control.PowerConsumedWatts * 3.412; // BTU calculation
   
                       return (
-                        <FlexItem key={controlIndex} style={{ width: '300px', margin: '10px' }}>
+                        <FlexItem
+                          key={controlIndex}
+                          style={{
+                            width: '300px',
+                            margin: '10px',
+                          }}
+                        >
                           <div
+                            className={isOverCapacity ? 'flash' : ''}
                             style={{
-                              border: `2px solid ${isCritical ? 'red' : 'green'}`,
+                              border: `2px solid ${isOverCapacity ? 'red' : 'green'}`,
                               borderRadius: '8px',
                               padding: '10px',
-                              backgroundColor: isCritical ? '#ffe6e6' : '#e6ffe6',
+                              backgroundColor: isOverCapacity ? '#ffe6e6' : '#e6ffe6',
                             }}
                           >
                             <Title headingLevel="h3" size="md">
@@ -168,8 +183,8 @@ export default function ExamplePage() {
                                 <div
                                   style={{
                                     height: '100%',
-                                    width: `${powerUsagePercentage}%`,
-                                    backgroundColor: isCritical ? 'red' : 'green',
+                                    width: `${Math.min(powerUsagePercentage, 100)}%`,
+                                    backgroundColor: isOverCapacity ? 'red' : 'green',
                                   }}
                                 />
                               </div>
@@ -191,4 +206,5 @@ export default function ExamplePage() {
       </Page>
     </>
   );
+  
 }

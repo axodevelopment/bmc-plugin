@@ -5,3 +5,19 @@
    * https://patternfly-react-main.surge.sh/developer-resources/global-css-variables */
   color: var(--pf-global--palette--blue-400);
 }
+
+@keyframes flash {
+  0% {
+    background-color: #ffcccc;
+  }
+  50% {
+    background-color: #ff6666;
+  }
+  100% {
+    background-color: #ffcccc;
+  }
+}
+
+.flash {
+  animation: flash 1s infinite;
+}
