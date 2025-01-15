@@ -1,12 +1,12 @@
 {
-  "name": "console-plugin-template",
+  "name": "bmc-plugin",
   "version": "0.0.1",
-  "description": "Template project for OpenShift Console plugins",
+  "description": "BMC-Plugin",
   "private": true,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openshift/console-plugin-template.git"
+    "url": "https://github.com/axodevelopment/bmc-plugin.git"
   },
   "scripts": {
     "clean": "rm -rf dist",
@@ -69,12 +69,12 @@
     "webpack-dev-server": "^4.7.4"
   },
   "consolePlugin": {
-    "name": "console-plugin-template",
+    "name": "bmc-plugin",
     "version": "0.0.1",
-    "displayName": "OpenShift Console Plugin Template",
-    "description": "Template project for OpenShift Console plugins. Edit package.json to change this message and the plugin name.",
+    "displayName": "BMC Plugin",
+    "description": "BMC Plugin",
     "exposedModules": {
-      "ExamplePage": "./components/ExamplePage"
+      "Dashboard": "./components/Dashboard"
     },
     "dependencies": {
       "@console/pluginAPI": "*"
@@ -86,5 +86,8 @@
     "babel-loader": "^8.0.2",
     "i18next": "^23.11.5",
     "mocha": "^10.5.1"
+  },
+  "dependencies": {
+    "@patternfly/react-table": "^6.1.0"
   }
 }

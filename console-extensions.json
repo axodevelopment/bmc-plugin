@@ -1,4 +1,5 @@
 [
+  /*
   {
     "type": "console.page/route",
     "properties": {
@@ -15,6 +16,32 @@
       "href": "/example",
       "perspective": "admin",
       "section": "home"
+    }
+  }*/
+
+  {   
+    "type": "console.navigation/section",
+    "properties": {
+      "id": "bmc-section",
+      "insertAfter": "builds",
+      "perspective": "admin",
+      "name": "BMC"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "section": "bmc-section",
+      "href": "/bmcplugin/Dashboard",
+      "name": "Dashboard"
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/bmcplugin/Dashboard",
+      "component": { "$codeRef": "Dashboard" }
     }
   }
 ]
