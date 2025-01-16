@@ -241,26 +241,65 @@ export default function ExamplePage() {
                     {device.powerControls.map((control, controlIndex) => {
                       const powerUsagePercentage = (control.PowerConsumedWatts / control.PowerCapacityWatts) * 100;
                       const isOverCapacity = powerUsagePercentage > 100;
+  
                       return (
-                        <FlexItem key={controlIndex} style={{ width: '300px', margin: '10px' }}>
+                        <FlexItem key={controlIndex} style={{ width: '300px', margin: '10px', position: 'relative' }}>
                           <div
                             style={{
                               border: `2px solid ${isOverCapacity ? 'red' : 'green'}`,
                               borderRadius: '8px',
                               padding: '10px',
                               backgroundColor: isOverCapacity ? '#ffe6e6' : '#e6ffe6',
+                              height: '150px',
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
                             }}
                           >
-                            <Title headingLevel="h4" size="md">
-                              {control.Name}
-                            </Title>
-                            <p>
-                              <b>Power Consumed:</b> {control.PowerConsumedWatts.toFixed(2)} W
-                            </p>
-                            <p>
-                              <b>Power Capacity:</b> {control.PowerCapacityWatts.toFixed(2)} W
-                            </p>
+                            <div style={{ flex: '1 1 auto' }}>
+                              <Title headingLevel="h4" size="md">
+                                {control.Name}
+                              </Title>
+                              <p>
+                                <b>Power Consumed:</b> {control.PowerConsumedWatts.toFixed(2)} W
+                              </p>
+                              <p>
+                                <b>Power Capacity:</b> {control.PowerCapacityWatts.toFixed(2)} W
+                              </p>
+                            </div>
+                            <div
+                              style={{
+                                width: '20px',
+                                height: '100%',
+                                backgroundColor: '#ccc',
+                                borderRadius: '10px',
+                                overflow: 'hidden',
+                                position: 'relative',
+                                marginLeft: '10px',
+                              }}
+                            >
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  bottom: '0',
+                                  width: '100%',
+                                  height: `${Math.min(powerUsagePercentage, 100)}%`,
+                                  backgroundColor: isOverCapacity ? 'red' : 'green',
+                                }}
+                              />
+                            </div>
                           </div>
+                          <p
+                            style={{
+                              textAlign: 'center',
+                              marginTop: '5px',
+                              fontWeight: 'bold',
+                              color: isOverCapacity ? 'red' : 'green',
+                            }}
+                          >
+                            {powerUsagePercentage.toFixed(1)}% of Capacity
+                          </p>
                         </FlexItem>
                       );
                     })}
