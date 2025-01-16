@@ -245,6 +245,7 @@ export default function ExamplePage() {
                       return (
                         <FlexItem key={controlIndex} style={{ width: '300px', margin: '10px', position: 'relative' }}>
                           <div
+                            className={isOverCapacity ? 'flash': ''}
                             style={{
                               border: `2px solid ${isOverCapacity ? 'red' : 'green'}`,
                               borderRadius: '8px',
