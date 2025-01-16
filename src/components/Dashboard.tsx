@@ -9,7 +9,8 @@ import { useTranslation } from 'react-i18next';
 import { Page, PageSection, Title, Flex, FlexItem, BackToTop,
   EmptyState,
   EmptyStateIcon,
-  EmptyStateBody
+  EmptyStateBody,
+  Button
 } from '@patternfly/react-core';
 import './example.css';
 import { useEffect, useState } from 'react';
@@ -31,10 +32,54 @@ export default function ExamplePage() {
   useEffect(() => {
 
     const createPseudoNetworkInterfaces = (): NetworkInterface[] => [
-      { port: 1, linkStatus: "Up", linkSpeed: "1000 Mbps", protocol: "NIC", switchConnectionID: "Not Available", switchPortConnectionID: "Not Available", cpuAffinity: "N/A" },
-      { port: 2, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A" },
-      { port: 3, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A" },
-      { port: 4, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A" },
+      {
+        port: 1, linkStatus: "Up", linkSpeed: "1000 Mbps", protocol: "NIC", switchConnectionID: "Not Available", switchPortConnectionID: "Not Available", cpuAffinity: "N/A",
+        partitionProperties: {
+          osDriverState: 'Operational',
+          lanDriverVersion: '5.14.0-427.49.1.el9_4.x86_64',
+          pciDeviceId: '1563'
+        },
+        macAddresses: {
+          physical: 'E4:43:4B:DB:D8:30',
+          virtual: 'E4:43:4B:DB:D8:30'
+        }
+      },
+      {
+        port: 2, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A",
+        partitionProperties: {
+          osDriverState: '',
+          lanDriverVersion: '',
+          pciDeviceId: ''
+        },
+        macAddresses: {
+          physical: '',
+          virtual: ''
+        }
+      },
+      {
+        port: 3, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A",
+        partitionProperties: {
+          osDriverState: '',
+          lanDriverVersion: '',
+          pciDeviceId: ''
+        },
+        macAddresses: {
+          physical: '',
+          virtual: ''
+        }
+      },
+      {
+        port: 4, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A",
+        partitionProperties: {
+          osDriverState: '',
+          lanDriverVersion: '',
+          pciDeviceId: ''
+        },
+        macAddresses: {
+          physical: '',
+          virtual: ''
+        }
+      },
     ];
 
     const createPseudoDevice = (id: number): PowerControl => ({
@@ -63,11 +108,46 @@ export default function ExamplePage() {
     const getBmcData = async () => {
       
       const devices: Device[] = [
-        { name: "Device - CJO", powerControls: [1, 2].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
-        { name: "Device - CNO", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
-        { name: "Device - GNN", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
-        { name: "Device - GW2", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
-        { name: "Device - OD2", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces() },
+        {
+          name: "Device - CJO", powerControls: [1, 2].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'CJO6DV2',
+          biosVersion: '',
+          idracFirmwareVersion: '',
+          ipAddress: 'https://192.168.31.11/',
+          idracMacAddress: '4c:d9:8f:26:6e:3c'
+        },
+        {
+          name: "Device - CNO", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'CNO6DV2',
+          biosVersion: '',
+          idracFirmwareVersion: '',
+          ipAddress: 'https://192.168.31.11/',
+          idracMacAddress: '4c:d9:8f:26:6e:3c'
+        },
+        {
+          name: "Device - GNN", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'GNN4DV2',
+          biosVersion: '',
+          idracFirmwareVersion: '',
+          ipAddress: 'https://192.168.31.11/',
+          idracMacAddress: '4c:d9:8f:26:6e:3c'
+        },
+        {
+          name: "Device - GW2", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'GW22DV2',
+          biosVersion: '',
+          idracFirmwareVersion: '',
+          ipAddress: 'https://192.168.31.11/',
+          idracMacAddress: '4c:d9:8f:26:6e:3c'
+        },
+        {
+          name: "Device - OD2", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: '0D23DV2',
+          biosVersion: '',
+          idracFirmwareVersion: '',
+          ipAddress: 'https://192.168.31.11/',
+          idracMacAddress: '4c:d9:8f:26:6e:3c'
+        },
       ];
 
       setDevices(devices);
@@ -118,14 +198,40 @@ export default function ExamplePage() {
                   key={deviceIndex}
                   style={{
                     marginBottom: '20px',
-                    border: '1px solid #ccc',
-                    padding: '20px',
+                    border: '4px solid #007BFF',
                     borderRadius: '8px',
+                    padding: '20px',
+                    backgroundColor: '#F0F8FF',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
                   }}
                 >
-                  <Title headingLevel="h2" size="lg">
-                    {device.name}
-                  </Title>
+                  <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+                    <FlexItem>
+                      <Title headingLevel="h2" size="lg">
+                        {device.name}
+                      </Title>
+                      <p>
+                        <b>Service Tag:</b> {device.serviceTag}
+                      </p>
+                      <p>
+                        <b>BIOS Version:</b> {device.biosVersion}
+                      </p>
+                      <p>
+                        <b>iDRAC Firmware Version:</b> {device.idracFirmwareVersion}
+                      </p>
+                      <p>
+                        <b>IP Address:</b> {device.ipAddress}
+                      </p>
+                      <p>
+                        <b>iDRAC MAC Address:</b> {device.idracMacAddress}
+                      </p>
+                    </FlexItem>
+                    <FlexItem>
+                      <Button variant="primary" onClick={() => alert(`Graceful Reboot for ${device.name}`)}>
+                        Graceful Reboot
+                      </Button>
+                    </FlexItem>
+                  </Flex>
   
                   {/* Power Controls Section */}
                   <Title headingLevel="h3" size="lg" style={{ marginTop: '20px' }}>
@@ -135,19 +241,9 @@ export default function ExamplePage() {
                     {device.powerControls.map((control, controlIndex) => {
                       const powerUsagePercentage = (control.PowerConsumedWatts / control.PowerCapacityWatts) * 100;
                       const isOverCapacity = powerUsagePercentage > 100;
-                      const temperature = Math.random() * 30 + 60; // Mock temperature
-                      const btusUsed = control.PowerConsumedWatts * 3.412; // BTU calculation
-  
                       return (
-                        <FlexItem
-                          key={controlIndex}
-                          style={{
-                            width: '300px',
-                            margin: '10px',
-                          }}
-                        >
+                        <FlexItem key={controlIndex} style={{ width: '300px', margin: '10px' }}>
                           <div
-                            className={isOverCapacity ? 'flash' : ''}
                             style={{
                               border: `2px solid ${isOverCapacity ? 'red' : 'green'}`,
                               borderRadius: '8px',
@@ -162,33 +258,8 @@ export default function ExamplePage() {
                               <b>Power Consumed:</b> {control.PowerConsumedWatts.toFixed(2)} W
                             </p>
                             <p>
-                              <b>BTUs Used:</b> {btusUsed.toFixed(2)} BTU/h
+                              <b>Power Capacity:</b> {control.PowerCapacityWatts.toFixed(2)} W
                             </p>
-                            <p>
-                              <b>Temperature:</b> {temperature.toFixed(1)}°F
-                            </p>
-                            <div style={{ marginTop: '10px' }}>
-                              <div
-                                style={{
-                                  height: '20px',
-                                  width: '100%',
-                                  backgroundColor: '#ccc',
-                                  borderRadius: '10px',
-                                  overflow: 'hidden',
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    height: '100%',
-                                    width: `${Math.min(powerUsagePercentage, 100)}%`,
-                                    backgroundColor: isOverCapacity ? 'red' : 'green',
-                                  }}
-                                />
-                              </div>
-                              <p style={{ textAlign: 'center', margin: '5px 0 0' }}>
-                                {powerUsagePercentage.toFixed(1)}% of Capacity
-                              </p>
-                            </div>
                           </div>
                         </FlexItem>
                       );
@@ -213,15 +284,39 @@ export default function ExamplePage() {
                     </thead>
                     <tbody>
                       {device.networkInterfaces.map((nic, nicIndex) => (
-                        <tr key={nicIndex} style={{ borderBottom: '1px solid #ccc' }}>
-                          <td>{nic.port}</td>
-                          <td>{nic.linkStatus}</td>
-                          <td>{nic.linkSpeed}</td>
-                          <td>{nic.protocol}</td>
-                          <td>{nic.switchConnectionID}</td>
-                          <td>{nic.switchPortConnectionID}</td>
-                          <td>{nic.cpuAffinity}</td>
-                        </tr>
+                        <React.Fragment key={nicIndex}>
+                          <tr>
+                            <td>{nic.port}</td>
+                            <td>{nic.linkStatus}</td>
+                            <td>{nic.linkSpeed}</td>
+                            <td>{nic.protocol}</td>
+                            <td>{nic.switchConnectionID}</td>
+                            <td>{nic.switchPortConnectionID}</td>
+                            <td>{nic.cpuAffinity}</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={7}>
+                              <details style={{ padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
+                                <summary>Additional NIC Details</summary>
+                                <p>
+                                  <b>OS Driver State:</b> {nic.partitionProperties.osDriverState}
+                                </p>
+                                <p>
+                                  <b>LAN Driver Version:</b> {nic.partitionProperties.lanDriverVersion}
+                                </p>
+                                <p>
+                                  <b>PCI Device ID:</b> {nic.partitionProperties.pciDeviceId}
+                                </p>
+                                <p>
+                                  <b>Physical MAC Address:</b> {nic.macAddresses.physical}
+                                </p>
+                                <p>
+                                  <b>Virtual MAC Address:</b> {nic.macAddresses.virtual}
+                                </p>
+                              </details>
+                            </td>
+                          </tr>
+                        </React.Fragment>
                       ))}
                     </tbody>
                   </table>

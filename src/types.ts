@@ -24,9 +24,14 @@ export interface VirtualClusterList extends K8sResourceCommon {
 }
 
 export interface Device {
-    name: string;
-    powerControls: PowerControl[];
-    networkInterfaces: NetworkInterface[];
+  name: string;
+  serviceTag: string;
+  biosVersion: string;
+  idracFirmwareVersion: string;
+  ipAddress: string;
+  idracMacAddress: string;
+  powerControls: PowerControl[];
+  networkInterfaces: NetworkInterface[];
 }
 
 export interface PowerControl {
@@ -65,4 +70,13 @@ type PowerLimit = {
     switchConnectionID: string;
     switchPortConnectionID: string;
     cpuAffinity: string;
+    partitionProperties: {
+      osDriverState: string;
+      lanDriverVersion: string;
+      pciDeviceId: string;
+    };
+    macAddresses: {
+      physical: string;
+      virtual: string;
+    };
   }
