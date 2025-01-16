@@ -21,3 +21,27 @@
 .flash {
   animation: flash 1s infinite;
 }
+
+.device-details p {
+  padding: 1px 8px; /* Vertical and horizontal padding */
+  margin: 0; /* Remove default margins */
+}
+
+.network-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.network-table th,
+.network-table td {
+  padding: 8px 10px; /* Consistent padding for table cells */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ddd; /* Add subtle row separators */
+}
+
+.details-section {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}

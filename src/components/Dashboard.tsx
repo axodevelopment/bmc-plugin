@@ -109,7 +109,7 @@ export default function ExamplePage() {
       
       const devices: Device[] = [
         {
-          name: "Device - CJO", powerControls: [1, 2].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          name: "Device - CJO", powerControls: [1].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
           serviceTag: 'CJO6DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
@@ -117,7 +117,7 @@ export default function ExamplePage() {
           idracMacAddress: '4c:d9:8f:26:6e:3c'
         },
         {
-          name: "Device - CNO", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          name: "Device - CNO", powerControls: [9].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
           serviceTag: 'CNO6DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
@@ -125,7 +125,7 @@ export default function ExamplePage() {
           idracMacAddress: '4c:d9:8f:26:6e:3c'
         },
         {
-          name: "Device - GNN", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          name: "Device - GNN", powerControls: [7].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
           serviceTag: 'GNN4DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
@@ -133,7 +133,7 @@ export default function ExamplePage() {
           idracMacAddress: '4c:d9:8f:26:6e:3c'
         },
         {
-          name: "Device - GW2", powerControls: [4, 5].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          name: "Device - GW2", powerControls: [4].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
           serviceTag: 'GW22DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
@@ -141,7 +141,7 @@ export default function ExamplePage() {
           idracMacAddress: '4c:d9:8f:26:6e:3c'
         },
         {
-          name: "Device - OD2", powerControls: [7, 8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          name: "Device - OD2", powerControls: [8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
           serviceTag: '0D23DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
@@ -198,7 +198,7 @@ export default function ExamplePage() {
                   key={deviceIndex}
                   style={{
                     marginBottom: '20px',
-                    border: '4px solid #007BFF',
+                    border: '4px solid rgb(238, 0, 0)',
                     borderRadius: '8px',
                     padding: '20px',
                     backgroundColor: '#F0F8FF',
@@ -210,21 +210,23 @@ export default function ExamplePage() {
                       <Title headingLevel="h2" size="lg">
                         {device.name}
                       </Title>
-                      <p>
-                        <b>Service Tag:</b> {device.serviceTag}
-                      </p>
-                      <p>
-                        <b>BIOS Version:</b> {device.biosVersion}
-                      </p>
-                      <p>
-                        <b>iDRAC Firmware Version:</b> {device.idracFirmwareVersion}
-                      </p>
-                      <p>
-                        <b>IP Address:</b> {device.ipAddress}
-                      </p>
-                      <p>
-                        <b>iDRAC MAC Address:</b> {device.idracMacAddress}
-                      </p>
+                      <div className="device-details">
+                        <p>
+                          <b>Service Tag:</b> {device.serviceTag}
+                        </p>
+                        <p>
+                          <b>BIOS Version:</b> {device.biosVersion}
+                        </p>
+                        <p>
+                          <b>iDRAC Firmware Version:</b> {device.idracFirmwareVersion}
+                        </p>
+                        <p>
+                          <b>IP Address:</b> {device.ipAddress}
+                        </p>
+                        <p>
+                          <b>iDRAC MAC Address:</b> {device.idracMacAddress}
+                        </p>
+                      </div>
                     </FlexItem>
                     <FlexItem>
                       <Button variant="primary" onClick={() => alert(`Graceful Reboot for ${device.name}`)}>
@@ -310,7 +312,8 @@ export default function ExamplePage() {
                   <Title headingLevel="h3" size="lg" style={{ marginTop: '20px' }}>
                     Networking
                   </Title>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
+                  {/*</div>style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>*/}
+                  <table className="network-table">
                     <thead>
                       <tr>
                         <th>Port</th>
@@ -337,8 +340,9 @@ export default function ExamplePage() {
                           {nic.linkStatus === "Up" && (
                           <tr>
                             <td colSpan={7}>
-                              <details style={{ padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
-                                <summary>Additional NIC Details</summary>
+                              {/* style={{ padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '4px' } */}
+                              <details className="details-section">
+                                <summary>NIC Details</summary>
                                 <p>
                                   <b>OS Driver State:</b> {nic.partitionProperties.osDriverState}
                                 </p>
