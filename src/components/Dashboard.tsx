@@ -334,6 +334,7 @@ export default function ExamplePage() {
                             <td>{nic.switchPortConnectionID}</td>
                             <td>{nic.cpuAffinity}</td>
                           </tr>
+                          {nic.linkStatus === "Up" && (
                           <tr>
                             <td colSpan={7}>
                               <details style={{ padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
@@ -355,7 +356,7 @@ export default function ExamplePage() {
                                 </p>
                               </details>
                             </td>
-                          </tr>
+                          </tr>)}
                         </React.Fragment>
                       ))}
                     </tbody>
