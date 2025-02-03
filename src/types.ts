@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { K8sResourceCommon } from '@openshift-console/dynamic-plugin-sdk';
 
+/* first pass vc */
 export interface VirtualCluster extends K8sResourceCommon {
   apiVersion: string;
   kind: string;
