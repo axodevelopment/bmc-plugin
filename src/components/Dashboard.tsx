@@ -109,45 +109,37 @@ export default function ExamplePage() {
       
       const devices: Device[] = [
         {
-          name: "Device - CJO", powerControls: [1].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'CJO6DV2',
+          name: "Device - GSO", powerControls: [1].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'GS06DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
           ipAddress: 'https://192.168.31.11/',
           idracMacAddress: '4c:d9:8f:26:6e:3c'
         },
         {
-          name: "Device - CNO", powerControls: [9].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'CNO6DV2',
+          name: "Device - GSN", powerControls: [9].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'GSN2DV2',
           biosVersion: '',
           idracFirmwareVersion: '',
-          ipAddress: 'https://192.168.31.11/',
-          idracMacAddress: '4c:d9:8f:26:6e:3c'
+          ipAddress: 'https://192.168.31.12/',
+          idracMacAddress: '4c:d9:8f:20:4a:86'
         },
         {
-          name: "Device - GNN", powerControls: [7].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'GNN4DV2',
+          name: "Device - 8FT", powerControls: [7].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: '8FT1PX2',
           biosVersion: '',
           idracFirmwareVersion: '',
-          ipAddress: 'https://192.168.31.11/',
-          idracMacAddress: '4c:d9:8f:26:6e:3c'
+          ipAddress: 'https://192.168.31.12/',
+          idracMacAddress: '54:bf:64:fb:5e:ee'
         },
         {
-          name: "Device - GW2", powerControls: [4].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'GW22DV2',
+          name: "Device - COJ", powerControls: [4].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
+          serviceTag: 'COJKPY2',
           biosVersion: '',
           idracFirmwareVersion: '',
-          ipAddress: 'https://192.168.31.11/',
-          idracMacAddress: '4c:d9:8f:26:6e:3c'
-        },
-        {
-          name: "Device - OD2", powerControls: [8].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: '0D23DV2',
-          biosVersion: '',
-          idracFirmwareVersion: '',
-          ipAddress: 'https://192.168.31.11/',
-          idracMacAddress: '4c:d9:8f:26:6e:3c'
-        },
+          ipAddress: 'https://192.168.31.22/',
+          idracMacAddress: 'f4:02:70:b5:12:26'
+        }
       ];
 
       setDevices(devices);
