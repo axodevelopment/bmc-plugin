@@ -16,9 +16,7 @@ import { Page, PageSection, Title, Flex, FlexItem, BackToTop,
 } from '@patternfly/react-core';
 import './example.css';
 import { useEffect, useState } from 'react';
-import { Device, PowerControl, NetworkInterface } from 'src/types';
-//import { Link } from 'react-router-dom';
-//PlusCircleIcon
+import { Device, generateMockDevices } from '../types';
 import { CubesIcon } from '@patternfly/react-icons';
 
 export default function ExamplePage() {
@@ -30,118 +28,8 @@ export default function ExamplePage() {
   const version = 'Version: v0.0.1'
 
   useEffect(() => {
-
-    const createPseudoNetworkInterfaces = (): NetworkInterface[] => [
-      {
-        port: 1, linkStatus: "Up", linkSpeed: "1000 Mbps", protocol: "NIC", switchConnectionID: "Not Available", switchPortConnectionID: "Not Available", cpuAffinity: "N/A",
-        partitionProperties: {
-          osDriverState: 'Operational',
-          lanDriverVersion: '5.14.0-427.49.1.el9_4.x86_64',
-          pciDeviceId: '1563'
-        },
-        macAddresses: {
-          physical: 'E4:43:4B:DB:D8:30',
-          virtual: 'E4:43:4B:DB:D8:30'
-        }
-      },
-      {
-        port: 2, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A",
-        partitionProperties: {
-          osDriverState: '',
-          lanDriverVersion: '',
-          pciDeviceId: ''
-        },
-        macAddresses: {
-          physical: '',
-          virtual: ''
-        }
-      },
-      {
-        port: 3, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A",
-        partitionProperties: {
-          osDriverState: '',
-          lanDriverVersion: '',
-          pciDeviceId: ''
-        },
-        macAddresses: {
-          physical: '',
-          virtual: ''
-        }
-      },
-      {
-        port: 4, linkStatus: "Down", linkSpeed: "Unknown", protocol: "NIC", switchConnectionID: "No Link", switchPortConnectionID: "No Link", cpuAffinity: "N/A",
-        partitionProperties: {
-          osDriverState: '',
-          lanDriverVersion: '',
-          pciDeviceId: ''
-        },
-        macAddresses: {
-          physical: '',
-          virtual: ''
-        }
-      },
-    ];
-
-    const createPseudoDevice = (id: number): PowerControl => ({
-      "@odata.context": `/redfish/v1/PowerControl/${id}`,
-      "@odata.type": `#Power.v1_0_0.PowerControl`,
-      "@odata.id": `/redfish/v1/PowerControl/${id}`,
-    
-      Name: `pd${id}`,
-      MemberId: `Device${id}`,
-      PowerAllocatedWatts: Math.random() * 100,
-      PowerAvailableWatts: 1104,
-      PowerCapacityWatts: 1104,
-      PowerConsumedWatts: 100 + (Math.random() * 33 + Math.random() * 33 + Math.random() * 33),
-      PowerLimit: {
-        LimitInWatts: 1104,
-        LimitException: "NoLimit",
-      },
-      PowerMetrics: {
-        AverageConsumedWatts: 100 + (Math.random() * 33 + Math.random() * 33 + Math.random() * 33),
-        MaxConsumedWatts: Math.random() * 60,
-        MinConsumedWatts: Math.random() * 40,
-      },
-      PowerRequestedWatts: Math.random() * 80,
-    });
-
     const getBmcData = async () => {
-      
-      const devices: Device[] = [
-        {
-          name: "Device - GSO", powerControls: [1].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'GS06DV2',
-          biosVersion: '2.15.0',
-          idracFirmwareVersion: '5.10.50.00',
-          ipAddress: 'https://192.168.31.11/',
-          idracMacAddress: '4c:d9:8f:26:6e:3c'
-        },
-        {
-          name: "Device - GSN", powerControls: [9].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'GSN2DV2',
-          biosVersion: '2.14.2',
-          idracFirmwareVersion: '5.10.50.00',
-          ipAddress: 'https://192.168.31.12/',
-          idracMacAddress: '4c:d9:8f:20:4a:86'
-        },
-        {
-          name: "Device - 8FT", powerControls: [7].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: '8FT1PX2',
-          biosVersion: '2.15.0',
-          idracFirmwareVersion: '5.10.50.00',
-          ipAddress: 'https://192.168.31.12/',
-          idracMacAddress: '54:bf:64:fb:5e:ee'
-        },
-        {
-          name: "Device - COJ", powerControls: [4].map(createPseudoDevice), networkInterfaces: createPseudoNetworkInterfaces(),
-          serviceTag: 'COJKPY2',
-          biosVersion: '2.13.3',
-          idracFirmwareVersion: '5.10.50.00',
-          ipAddress: 'https://192.168.31.22/',
-          idracMacAddress: 'f4:02:70:b5:12:26'
-        }
-      ];
-
+      const devices = generateMockDevices();
       setDevices(devices);
     };
 
@@ -164,16 +52,16 @@ export default function ExamplePage() {
         <title data-test="example-page-title">{t('Dashboard')}</title>
       </Helmet>
       <Page>
-        <PageSection variant="light" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
+        <PageSection variant="light" className="page-header">
           <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
             <FlexItem>
-              <Title headingLevel="h1" style={{ fontSize: '2.5rem', fontWeight: 300, textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+              <Title headingLevel="h1" className="page-title">
                 {t('Device Dashboard')}
               </Title>
             </FlexItem>
           </Flex>
         </PageSection>
-        <PageSection variant="light" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+        <PageSection variant="light" className="page-background">
           {devices.length === 0 ? (
             <EmptyState>
               <EmptyStateIcon icon={CubesIcon} />
@@ -185,18 +73,9 @@ export default function ExamplePage() {
               </EmptyStateBody>
             </EmptyState>
           ) : (
-            <div style={{ display: 'grid', gap: '24px' }}>
+            <div className="devices-grid">
               {devices.map((device, deviceIndex) => (
-                <Card
-                  key={deviceIndex}
-                  style={{
-                    border: 'none',
-                    borderRadius: '16px',
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-                    background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
-                    overflow: 'hidden'
-                  }}
-                >
+                <Card key={deviceIndex} className="device-card-enhanced">
                   <CardBody style={{ padding: '32px' }}>
                     {/* Device Header with Action Button */}
                     <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} alignItems={{ default: 'alignItemsCenter' }} style={{ marginBottom: '32px' }}>
@@ -204,26 +83,15 @@ export default function ExamplePage() {
                         <Title 
                           headingLevel="h2" 
                           size="xl" 
+                          className="gradient-text"
                           style={{ 
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
                             fontWeight: 600,
                             marginBottom: '8px'
                           }}
                         >
                           {device.name}
                         </Title>
-                        <div style={{ 
-                          display: 'inline-block',
-                          backgroundColor: '#e3f2fd',
-                          color: '#1976d2',
-                          padding: '4px 12px',
-                          borderRadius: '20px',
-                          fontSize: '14px',
-                          fontWeight: 500
-                        }}>
+                        <div className="device-label">
                           LABEL: {device.serviceTag}
                         </div>
                       </FlexItem>
@@ -231,116 +99,130 @@ export default function ExamplePage() {
                         <Button 
                           variant="primary" 
                           onClick={() => alert(`Graceful Reboot for ${device.name}`)}
-                          style={{
-                            background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
-                            border: 'none',
-                            borderRadius: '12px',
-                            padding: '12px 24px',
-                            fontWeight: 600,
-                            boxShadow: '0 4px 12px rgba(255, 107, 107, 0.3)',
-                            transition: 'all 0.3s ease'
-                          }}
+                          className="reboot-button"
                         >
                           Graceful Reboot
                         </Button>
                       </FlexItem>
                     </Flex>
 
-                    {/* Power Controls Section - Priority Focus */}
+                    {/* Power Controls Section */}
                     <div style={{ marginBottom: '32px' }}>
-                      <Title 
-                        headingLevel="h3" 
-                        size="lg" 
-                        style={{ 
-                          color: '#2c3e50',
-                          marginBottom: '20px',
-                          fontSize: '1.5rem',
-                          fontWeight: 600,
-                          borderBottom: '3px solid #3498db',
-                          paddingBottom: '8px',
-                          display: 'inline-block'
-                        }}
-                      >
+                      <Title headingLevel="h3" size="lg" className="section-title">
                         ⚡ Power Controls
                       </Title>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
+                      <div className="power-controls-grid">
                         {device.powerControls.map((control, controlIndex) => {
                           const powerUsagePercentage = (control.PowerConsumedWatts / control.PowerCapacityWatts) * 100;
                           const isOverCapacity = powerUsagePercentage > 100;
+                          const btuPerHour = control.PowerConsumedWatts * 3.41;
+
+                          // SVG Pie Chart calculation
+                          const radius = 45;
+                          const circumference = 2 * Math.PI * radius;
+                          const strokeDasharray = `${(powerUsagePercentage / 100) * circumference} ${circumference}`;
 
                           return (
                             <div
                               key={controlIndex}
-                              className={isOverCapacity ? 'flash': ''}
-                              style={{
-                                border: `3px solid ${isOverCapacity ? '#e74c3c' : '#27ae60'}`,
-                                borderRadius: '16px',
-                                padding: '20px',
-                                background: isOverCapacity 
-                                  ? 'linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%)' 
-                                  : 'linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%)',
-                                position: 'relative',
-                                transition: 'all 0.3s ease',
-                                boxShadow: `0 4px 16px ${isOverCapacity ? 'rgba(231, 76, 60, 0.2)' : 'rgba(39, 174, 96, 0.2)'}`,
-                              }}
+                              className={`power-control-card ${isOverCapacity ? 'power-control-over-capacity flash' : 'power-control-normal'}`}
                             >
-                              <Flex alignItems={{ default: 'alignItemsCenter' }} style={{ height: '120px' }}>
-                                <FlexItem flex={{ default: 'flex_1' }}>
-                                  <Title headingLevel="h4" size="md" style={{ marginBottom: '12px', color: '#2c3e50' }}>
-                                    {control.Name}
-                                  </Title>
-                                  <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                                    <p style={{ margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
-                                      <span>Power Consumed:</span>
-                                      <strong style={{ color: isOverCapacity ? '#e74c3c' : '#27ae60' }}>
+                              <Title headingLevel="h4" size="lg" style={{ 
+                                marginBottom: '20px', 
+                                color: '#2c3e50',
+                                textAlign: 'center',
+                                fontWeight: 600
+                              }}>
+                                {control.Name}
+                              </Title>
+                              
+                              <div className="power-control-layout">
+                                
+                                {/* Power Details */}
+                                <div className="power-metrics-card">
+                                  <h5 className="power-metrics-header">
+                                    Power Metrics
+                                  </h5>
+                                  <div style={{ fontSize: '14px', lineHeight: '2' }}>
+                                    <div className={`power-metric-item ${isOverCapacity ? 'power-metric-consumed-over' : 'power-metric-consumed'}`}>
+                                      <span style={{ fontWeight: 600 }}>Currently Consumed:</span>
+                                      <strong style={{ 
+                                        color: isOverCapacity ? '#e74c3c' : '#2980b9',
+                                        fontSize: '16px'
+                                      }}>
                                         {control.PowerConsumedWatts.toFixed(2)} W
                                       </strong>
-                                    </p>
-                                    <p style={{ margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
-                                      <span>Power Capacity:</span>
-                                      <strong>{control.PowerCapacityWatts.toFixed(2)} W</strong>
-                                    </p>
+                                    </div>
+                                    <div className="power-metric-item power-metric-capacity">
+                                      <span style={{ fontWeight: 600 }}>Power Capacity:</span>
+                                      <strong style={{ fontSize: '16px', color: '#27ae60' }}>
+                                        {control.PowerCapacityWatts.toFixed(2)} W
+                                      </strong>
+                                    </div>
                                   </div>
-                                </FlexItem>
-                                <FlexItem>
-                                  <div
-                                    style={{
-                                      width: '32px',
-                                      height: '100px',
-                                      backgroundColor: '#e0e0e0',
-                                      borderRadius: '16px',
-                                      overflow: 'hidden',
-                                      position: 'relative',
-                                      marginLeft: '16px',
-                                      boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)'
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        position: 'absolute',
-                                        bottom: '0',
-                                        width: '100%',
-                                        height: `${Math.min(powerUsagePercentage, 100)}%`,
-                                        background: isOverCapacity 
-                                          ? 'linear-gradient(0deg, #e74c3c 0%, #ff6b6b 100%)'
-                                          : 'linear-gradient(0deg, #27ae60 0%, #2ecc71 100%)',
-                                        transition: 'height 0.5s ease',
-                                        borderRadius: '0 0 16px 16px'
-                                      }}
-                                    />
+                                </div>
+
+                                {/* Pie Chart */}
+                                <div className="pie-chart-container">
+                                  <div style={{ position: 'relative', marginBottom: '12px' }}>
+                                    <svg width="120" height="120" style={{ transform: 'rotate(-90deg)' }}>
+                                      {/* Background circle */}
+                                      <circle
+                                        cx="60"
+                                        cy="60"
+                                        r={radius}
+                                        fill="none"
+                                        stroke="#e0e0e0"
+                                        strokeWidth="8"
+                                      />
+                                      {/* Progress circle */}
+                                      <circle
+                                        cx="60"
+                                        cy="60"
+                                        r={radius}
+                                        fill="none"
+                                        stroke={isOverCapacity ? '#e74c3c' : '#3498db'}
+                                        strokeWidth="8"
+                                        strokeDasharray={strokeDasharray}
+                                        strokeLinecap="round"
+                                        style={{
+                                          transition: 'stroke-dasharray 1s ease-in-out',
+                                        }}
+                                      />
+                                    </svg>
+                                    <div className="pie-chart-center">
+                                      <div className={`pie-chart-percentage ${isOverCapacity ? 'status-over-capacity' : 'status-normal'}`} style={{
+                                        color: isOverCapacity ? '#e74c3c' : '#3498db'
+                                      }}>
+                                        {powerUsagePercentage.toFixed(1)}%
+                                      </div>
+                                      <div className="pie-chart-label">
+                                        USAGE
+                                      </div>
+                                    </div>
                                   </div>
-                                </FlexItem>
-                              </Flex>
-                              <div
-                                style={{
-                                  textAlign: 'center',
-                                  marginTop: '12px',
-                                  fontWeight: 700,
-                                  fontSize: '16px',
-                                  color: isOverCapacity ? '#e74c3c' : '#27ae60',
-                                }}
-                              >
-                                {powerUsagePercentage.toFixed(1)}% of Capacity
+                                  <div className={`status-badge ${isOverCapacity ? 'status-over-capacity' : 'status-normal'}`}>
+                                    {isOverCapacity ? 'OVER CAPACITY' : 'NORMAL OPERATION'}
+                                  </div>
+                                </div>
+
+                                {/* BTU/hr Display */}
+                                <div className="btu-display">
+                                  <h5 className="btu-header">
+                                    Heat Output
+                                  </h5>
+                                  <div className="btu-value-container">
+                                    <div className="btu-value">
+                                      {btuPerHour.toFixed(0)}
+                                    </div>
+                                    <div className="btu-unit">
+                                      BTU/hr
+                                    </div>
+                                    <div className="btu-description">
+                                      Thermal Energy Output
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           );
@@ -349,70 +231,45 @@ export default function ExamplePage() {
                     </div>
 
                     {/* Device Details and Networking in Grid Layout */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                    <div className="details-grid">
                       
                       {/* Device Details Section */}
                       <div>
-                        <Title 
-                          headingLevel="h3" 
-                          size="lg" 
-                          style={{ 
-                            color: '#2c3e50',
-                            marginBottom: '16px',
-                            fontSize: '1.3rem',
-                            fontWeight: 600
-                          }}
-                        >
+                        <Title headingLevel="h3" size="lg" className="subsection-title">
                           🖥️ Device Details
                         </Title>
-                        <details 
-                          className="details-section" 
-                          style={{
-                            backgroundColor: '#ffffff',
-                            border: '2px solid #e1e8ed',
-                            borderRadius: '12px',
-                            padding: '16px',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
-                          }}
-                        >
-                          <summary style={{ 
-                            cursor: 'pointer', 
-                            fontWeight: 600, 
-                            color: '#3498db',
-                            fontSize: '16px',
-                            marginBottom: '12px',
-                            padding: '8px 0'
-                          }}>
+                        <details className="details-section">
+                          <summary className="details-summary">
                             Hardware Information
                           </summary>
-                          <div style={{ paddingTop: '12px', fontSize: '14px', lineHeight: '1.8' }}>
-                            <p style={{ margin: '8px 0', display: 'flex', justifyContent: 'space-between' }}>
+                          <div className="details-content">
+                            <p className="details-item">
                               <span><b>Service Tag:</b></span>
-                              <span style={{ fontFamily: 'monospace', background: '#f8f9fa', padding: '2px 6px', borderRadius: '4px' }}>
+                              <span className="details-value">
                                 {device.serviceTag}
                               </span>
                             </p>
-                            <p style={{ margin: '8px 0', display: 'flex', justifyContent: 'space-between' }}>
+                            <p className="details-item">
                               <span><b>BIOS Version:</b></span>
-                              <span style={{ fontFamily: 'monospace', background: '#f8f9fa', padding: '2px 6px', borderRadius: '4px' }}>
+                              <span className="details-value">
                                 {device.biosVersion}
                               </span>
                             </p>
-                            <p style={{ margin: '8px 0', display: 'flex', justifyContent: 'space-between' }}>
+                            <p className="details-item">
                               <span><b>iDRAC Firmware:</b></span>
-                              <span style={{ fontFamily: 'monospace', background: '#f8f9fa', padding: '2px 6px', borderRadius: '4px' }}>
+                              <span className="details-value">
                                 {device.idracFirmwareVersion}
                               </span>
                             </p>
-                            <p style={{ margin: '8px 0', display: 'flex', justifyContent: 'space-between' }}>
+                            <p className="details-item">
                               <span><b>IP Address:</b></span>
-                              <span style={{ fontFamily: 'monospace', background: '#f8f9fa', padding: '2px 6px', borderRadius: '4px' }}>
+                              <span className="details-value">
                                 {device.ipAddress}
                               </span>
                             </p>
-                            <p style={{ margin: '8px 0', display: 'flex', justifyContent: 'space-between' }}>
+                            <p className="details-item">
                               <span><b>iDRAC MAC:</b></span>
-                              <span style={{ fontFamily: 'monospace', background: '#f8f9fa', padding: '2px 6px', borderRadius: '4px' }}>
+                              <span className="details-value">
                                 {device.idracMacAddress}
                               </span>
                             </p>
@@ -422,47 +279,15 @@ export default function ExamplePage() {
 
                       {/* Networking Section */}
                       <div>
-                        <Title 
-                          headingLevel="h3" 
-                          size="lg" 
-                          style={{ 
-                            color: '#2c3e50',
-                            marginBottom: '16px',
-                            fontSize: '1.3rem',
-                            fontWeight: 600
-                          }}
-                        >
+                        <Title headingLevel="h3" size="lg" className="subsection-title">
                           🌐 Networking
                         </Title>
-                        <details 
-                          className="details-section"
-                          style={{
-                            backgroundColor: '#ffffff',
-                            border: '2px solid #e1e8ed',
-                            borderRadius: '12px',
-                            padding: '16px',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
-                          }}
-                        >
-                          <summary style={{ 
-                            cursor: 'pointer', 
-                            fontWeight: 600, 
-                            color: '#3498db',
-                            fontSize: '16px',
-                            marginBottom: '12px',
-                            padding: '8px 0'
-                          }}>
+                        <details className="details-section">
+                          <summary className="details-summary">
                             Network Interfaces ({device.networkInterfaces.filter(nic => nic.linkStatus === "Up").length} Active)
                           </summary>
-                          <div style={{ paddingTop: '12px' }}>
-                            <table 
-                              className="network-table" 
-                              style={{
-                                width: '100%',
-                                borderCollapse: 'collapse',
-                                fontSize: '13px'
-                              }}
-                            >
+                          <div className="details-content" style={{ paddingTop: '12px' }}>
+                            <table className="network-table">
                               <thead>
                                 <tr style={{ backgroundColor: '#f8f9fa' }}>
                                   <th style={{ padding: '8px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Port</th>
@@ -477,14 +302,7 @@ export default function ExamplePage() {
                                     <tr style={{ borderBottom: '1px solid #e9ecef' }}>
                                       <td style={{ padding: '8px', fontWeight: 600 }}>{nic.port}</td>
                                       <td style={{ padding: '8px' }}>
-                                        <span style={{
-                                          padding: '2px 8px',
-                                          borderRadius: '12px',
-                                          fontSize: '12px',
-                                          fontWeight: 600,
-                                          backgroundColor: nic.linkStatus === 'Up' ? '#d4edda' : '#f8d7da',
-                                          color: nic.linkStatus === 'Up' ? '#155724' : '#721c24'
-                                        }}>
+                                        <span className={nic.linkStatus === 'Up' ? 'nic-status-up' : 'nic-status-down'}>
                                           {nic.linkStatus}
                                         </span>
                                       </td>
