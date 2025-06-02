@@ -1,47 +1,30 @@
-/* Prefixing your CSS classes with your plugin name is a best practice to avoid
- * collisions with other plugin styles. */
-.console-plugin-template__nice {
-  /* Use PF global vars for colors to support dark mode in OpenShift 4.11.
-   * https://patternfly-react-main.surge.sh/developer-resources/global-css-variables */
-  color: var(--pf-global--palette--blue-400);
-}
+ .device-card {
+   box-shadow: var(--pf-global--BoxShadow--sm);
+   border: 1px solid var(--pf-global--BorderColor--200);
+   background-color: var(--pf-global--BackgroundColor--light-100);
+ }
 
-@keyframes flash {
-  0% {
-    background-color: #ffcccc;
+ .network-table {
+   width: 100%;
+   border-collapse: collapse;
+ }
+
+ .network-table th,
+ .network-table td {
+   border: 1px solid var(--pf-global--BorderColor--200);
+   padding: var(--pf-global--spacer--sm);
+   text-align: left;
+ }
+
+ .flash {
+   animation: flashBorder 1s ease-in-out infinite alternate;
+ }
+
+ @keyframes flashBorder {
+   from {
+     border-color: red;
+   }
+   to {
+     border-color: var(--pf-global--palette--red-200);
   }
-  50% {
-    background-color: #ff6666;
-  }
-  100% {
-    background-color: #ffcccc;
-  }
-}
-
-.flash {
-  animation: flash 1s infinite;
-}
-
-.device-details p {
-  padding: 1px 8px; /* Vertical and horizontal padding */
-  margin: 0; /* Remove default margins */
-}
-
-.network-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.network-table th,
-.network-table td {
-  padding: 8px 10px; /* Consistent padding for table cells */
-  text-align: left; /* Align text to the left */
-  border-bottom: 1px solid #ddd; /* Add subtle row separators */
-}
-
-.details-section {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-}
+ }
