@@ -163,7 +163,7 @@ export const createPseudoDevice = (id: number): PowerControl => ({
   "@odata.type": `#Power.v1_0_0.PowerControl`,
   "@odata.id": `/redfish/v1/PowerControl/${id}`,
 
-  Name: `pd${id}`,
+  Name: `PD${id}`,
   MemberId: `Device${id}`,
   PowerAllocatedWatts: Math.random() * 100,
   PowerAvailableWatts: 1104,
