@@ -75,7 +75,8 @@
     "description": "BMC Plugin",
     "exposedModules": {
       "Dashboard": "./components/Dashboard",
-      "RackView":"./components/RackView"
+      "RackView":"./components/RackView",
+      "Devices": "./components/Devices"
 
     },
     "dependencies": {

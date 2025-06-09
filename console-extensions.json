@@ -65,5 +65,24 @@
       "path": "/bmcplugin/RackView",
       "component": { "$codeRef": "RackView" }
     }
+  },
+    /*
+  RackView
+  */
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "section": "bmc-section",
+      "href": "/bmcplugin/Devices",
+      "name": "Devices"
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/bmcplugin/Devices",
+      "component": { "$codeRef": "Devices" }
+    }
   }
 ]
